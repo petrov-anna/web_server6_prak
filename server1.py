@@ -7,29 +7,24 @@ import pprint
 # port = int(input("Введите порт: "))
 # file = str(input("Введите файл: "))
 d = []
+err = "No errors"
+count = 0
+
 with open('data.txt', 'r') as f:
     d = f.read().splitlines()
 
-for i in d:
-    port = int(d[0])
-    file = str(d[1])
+port = int(d[0])
 
-if file != "":
+if len(d) > 1:
+    file = str(d[1])
     a = file.find('.')
     type_file = file[a + 1:]
+    if type_file != 'html':
+        err = 'Error 403'
+        file = 'error403.html'
 else:
-    type_file = 'html'
-
-err = ""
-
-if file != "" and type_file != 'html':
-    err = 'Error 403'
-    file = 'error403.html'
-elif file == "":
     err = 'Error 404'
     file = 'error404.html'
-else:
-    err = "No errors"
 
 
 class ReqHand(http.server.SimpleHTTPRequestHandler):
